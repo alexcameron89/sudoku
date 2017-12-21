@@ -36,4 +36,21 @@ mod tests {
             let valid_puzzle = Puzzle { grid: grid };
             assert!(valid(&valid_puzzle));
     }
+
+    #[test]
+    fn it_returns_an_invalid_puzzle_as_invalid() {
+        let grid = vec![
+            vec![1,2,3,4,5,6,7,8,9],
+            vec![1,2,3,4,5,6,7,8,9],
+            vec![1,2,3,4,5,6,7,8,9],
+            vec![1,2,3,4,5,6,7,8,9],
+            vec![1,2,3,4,5,6,7,8,9],
+            vec![1,2,3,4,5,6,7,8,9],
+            vec![1,2,3,4,5,6,7,8,9],
+            vec![1,2,3,4,5,6,7,8,9],
+            vec![1,2,3,4,5,6,7,8,9]
+        ];
+            let valid_puzzle = Puzzle { grid: grid };
+            assert!(!valid(&valid_puzzle));
+    }
 }
