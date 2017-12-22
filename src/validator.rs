@@ -2,7 +2,14 @@ use sudoku::Puzzle;
 
 pub fn valid(puzzle: &Puzzle) -> bool {
     let valid_sorted_row = vec![1,2,3,4,5,6,7,8,9];
-    for row in &puzzle.grid {
+    let rows_are_valid = rows_are_valid(&valid_sorted_row, &puzzle.grid);
+    let columns_are_valid = columns_are_valid(&valid_sorted_row, &puzzle.grid);
+
+    return rows_are_valid && columns_are_valid
+}
+
+fn rows_are_valid(valid_sorted_row: &Vec<isize>, puzzle_grid: &Vec<Vec<isize>>) -> bool {
+    for row in puzzle_grid {
         let mut row_to_sort = row.to_vec();
         row_to_sort.sort();
         for (i, number) in row_to_sort.iter().enumerate() {
@@ -13,6 +20,23 @@ pub fn valid(puzzle: &Puzzle) -> bool {
     }
 
     return true
+}
+
+fn columns_are_valid(valid_sorted_row: &Vec<isize>, puzzle_grid: &Vec<Vec<isize>>) -> bool {
+  for column in 0..9 {
+      let mut sorted_row = vec![0; 9];
+      for row in 0..9 {
+          let number = puzzle_grid[row][column];
+          sorted_row[(number - 1) as usize] = number;
+      }
+      for (i, number) in sorted_row.iter().enumerate() {
+          if number != &valid_sorted_row[i] {
+              return false
+          }
+      }
+  }
+
+  return true
 }
 
 #[cfg(test)]
