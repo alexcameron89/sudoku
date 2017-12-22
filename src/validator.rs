@@ -4,8 +4,11 @@ pub fn valid(puzzle: &Puzzle) -> bool {
     let valid_sorted_row = vec![1,2,3,4,5,6,7,8,9];
     let rows_are_valid = rows_are_valid(&valid_sorted_row, &puzzle.grid);
     let columns_are_valid = columns_are_valid(&valid_sorted_row, &puzzle.grid);
+    let grids_are_valid = grids_are_valid(&valid_sorted_row, &puzzle.grid);
 
-    return rows_are_valid && columns_are_valid
+    return rows_are_valid
+        && columns_are_valid
+        && grids_are_valid
 }
 
 fn rows_are_valid(valid_sorted_row: &Vec<isize>, puzzle_grid: &Vec<Vec<isize>>) -> bool {
@@ -37,6 +40,10 @@ fn columns_are_valid(valid_sorted_row: &Vec<isize>, puzzle_grid: &Vec<Vec<isize>
   }
 
   return true
+}
+
+fn grids_are_valid(valid_sorted_row: &Vec<isize>, puzzle_grid: &Vec<Vec<isize>>) -> bool {
+    return true
 }
 
 #[cfg(test)]
@@ -73,6 +80,23 @@ mod tests {
             vec![1,2,3,4,5,6,7,8,9],
             vec![1,2,3,4,5,6,7,8,9],
             vec![1,2,3,4,5,6,7,8,9]
+        ];
+            let valid_puzzle = Puzzle { grid: grid };
+            assert!(!valid(&valid_puzzle));
+    }
+
+    #[test]
+    fn it_returns_a_second_invalid_puzzle_as_invalid() {
+        let grid = vec![
+            vec![1,2,3,4,5,6,7,8,9],
+            vec![2,3,4,5,6,7,8,9,1],
+            vec![3,4,5,6,7,8,9,1,2],
+            vec![4,5,6,7,8,9,1,2,3],
+            vec![5,6,7,8,9,1,2,3,4],
+            vec![6,7,8,9,1,2,3,4,5],
+            vec![7,8,9,1,2,3,4,5,6],
+            vec![8,9,1,2,3,4,5,6,7],
+            vec![9,1,2,3,4,5,6,7,8]
         ];
             let valid_puzzle = Puzzle { grid: grid };
             assert!(!valid(&valid_puzzle));
