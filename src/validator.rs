@@ -1,22 +1,63 @@
 use sudoku::Puzzle;
 
+const VALID_SORTED_ROW: [isize; 9] = [1,2,3,4,5,6,7,8,9];
+
 pub fn valid(puzzle: &Puzzle) -> bool {
-    let valid_sorted_row = vec![1,2,3,4,5,6,7,8,9];
-    let rows_are_valid = rows_are_valid(&valid_sorted_row, &puzzle.grid);
-    let columns_are_valid = columns_are_valid(&valid_sorted_row, &puzzle.grid);
-    let grids_are_valid = grids_are_valid(&valid_sorted_row, &puzzle.grid);
+    let rows_are_valid = rows_are_valid(&puzzle.grid);
+    let columns_are_valid = columns_are_valid(&puzzle.grid);
+    let grids_are_valid = grids_are_valid(&puzzle.grid);
 
     return rows_are_valid
         && columns_are_valid
         && grids_are_valid
 }
 
-fn rows_are_valid(valid_sorted_row: &Vec<isize>, puzzle_grid: &Vec<Vec<isize>>) -> bool {
+fn row_is_valid(row: &Vec<isize>) -> bool {
+    for (i, number) in row.iter().enumerate() {
+        if number != &VALID_SORTED_ROW[i] {
+            return false
+        }
+    }
+
+    return true
+}
+
+fn rows_are_valid(puzzle_grid: &Vec<Vec<isize>>) -> bool {
     for row in puzzle_grid {
         let mut row_to_sort = row.to_vec();
         row_to_sort.sort();
-        for (i, number) in row_to_sort.iter().enumerate() {
-            if number != &valid_sorted_row[i] {
+        if !row_is_valid(&row_to_sort) {
+            return false
+        }
+    }
+
+    return true
+}
+
+fn columns_are_valid(puzzle_grid: &Vec<Vec<isize>>) -> bool {
+  for column in 0..9 {
+      let mut sorted_row = vec![0; 9];
+      for row in 0..9 {
+          let number = puzzle_grid[row][column];
+          sorted_row[(number - 1) as usize] = number;
+      }
+
+      if !row_is_valid(&sorted_row) {
+          return false
+      }
+  }
+
+  return true
+}
+
+fn grids_are_valid(puzzle_grid: &Vec<Vec<isize>>) -> bool {
+    let grids = build_grid_groups(&puzzle_grid);
+
+    for group in 0..3 {
+        for grid in 0..3 {
+            let mut row_to_sort = grids[group][grid].to_vec();
+            row_to_sort.sort();
+            if !row_is_valid(&row_to_sort) {
                 return false
             }
         }
@@ -25,24 +66,24 @@ fn rows_are_valid(valid_sorted_row: &Vec<isize>, puzzle_grid: &Vec<Vec<isize>>) 
     return true
 }
 
-fn columns_are_valid(valid_sorted_row: &Vec<isize>, puzzle_grid: &Vec<Vec<isize>>) -> bool {
-  for column in 0..9 {
-      let mut sorted_row = vec![0; 9];
-      for row in 0..9 {
-          let number = puzzle_grid[row][column];
-          sorted_row[(number - 1) as usize] = number;
-      }
-      for (i, number) in sorted_row.iter().enumerate() {
-          if number != &valid_sorted_row[i] {
-              return false
-          }
-      }
-  }
+#[test]
+fn duplicate_numbers_in_a_grid_are_invalid() {
+    let invalid_grid = vec![
+        vec![1,2,3,4,5,6,7,8,9],
+        vec![2,3,4,5,6,7,8,9,1],
+        vec![3,4,5,6,7,8,9,1,2],
+        vec![4,5,6,7,8,9,1,2,3],
+        vec![5,6,7,8,9,1,2,3,4],
+        vec![6,7,8,9,1,2,3,4,5],
+        vec![7,8,9,1,2,3,4,5,6],
+        vec![8,9,1,2,3,4,5,6,7],
+        vec![9,1,2,3,4,5,6,7,8]
+    ];
 
-  return true
+    assert!(!grids_are_valid(&invalid_grid));
 }
 
-fn grids_are_valid(valid_sorted_row: &Vec<isize>, puzzle_grid: &Vec<Vec<isize>>) -> bool {
+fn build_grid_groups(puzzle_grid: &Vec<Vec<isize>>) -> Vec<Vec<Vec<isize>>> {
     let mut grids = vec![];
     let mut grid_group_number = 0;
     let mut grid_group = Vec::new();
@@ -63,37 +104,7 @@ fn grids_are_valid(valid_sorted_row: &Vec<isize>, puzzle_grid: &Vec<Vec<isize>>)
         }
     }
 
-    for group in 0..3 {
-        for grid in 0..3 {
-            let mut row_to_sort = grids[group][grid].to_vec();
-            row_to_sort.sort();
-            for (i, number) in row_to_sort.iter().enumerate() {
-                if number != &valid_sorted_row[i] {
-                    return false
-                }
-            }
-        }
-    }
-
-    return true
-}
-
-#[test]
-fn duplicate_numbers_in_a_grid_are_invalid() {
-    let valid_sorted_row = vec![1,2,3,4,5,6,7,8,9];
-    let invalid_grid = vec![
-        vec![1,2,3,4,5,6,7,8,9],
-        vec![2,3,4,5,6,7,8,9,1],
-        vec![3,4,5,6,7,8,9,1,2],
-        vec![4,5,6,7,8,9,1,2,3],
-        vec![5,6,7,8,9,1,2,3,4],
-        vec![6,7,8,9,1,2,3,4,5],
-        vec![7,8,9,1,2,3,4,5,6],
-        vec![8,9,1,2,3,4,5,6,7],
-        vec![9,1,2,3,4,5,6,7,8]
-    ];
-
-    assert!(!grids_are_valid(&valid_sorted_row, &invalid_grid));
+    return grids
 }
 
 #[cfg(test)]
