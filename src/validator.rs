@@ -43,7 +43,57 @@ fn columns_are_valid(valid_sorted_row: &Vec<isize>, puzzle_grid: &Vec<Vec<isize>
 }
 
 fn grids_are_valid(valid_sorted_row: &Vec<isize>, puzzle_grid: &Vec<Vec<isize>>) -> bool {
+    let mut grids = vec![];
+    let mut grid_group_number = 0;
+    let mut grid_group = Vec::new();
+    let mut new_grid = Vec::new();
+    for group in 0..9 {
+        grid_group_number = group % 3;
+        new_grid = Vec::new();
+        grid_group.push(new_grid);
+        if grid_group_number == 2 {
+            grids.push(grid_group);
+            grid_group = Vec::new();
+        }
+    }
+    for row in 0..9 {
+        for column in 0..9 {
+            let number = puzzle_grid[row][column];
+            grids[(row / 3)][(column / 3)].push(number);
+        }
+    }
+
+    for group in 0..3 {
+        for grid in 0..3 {
+            let mut row_to_sort = grids[group][grid].to_vec();
+            row_to_sort.sort();
+            for (i, number) in row_to_sort.iter().enumerate() {
+                if number != &valid_sorted_row[i] {
+                    return false
+                }
+            }
+        }
+    }
+
     return true
+}
+
+#[test]
+fn duplicate_numbers_in_a_grid_are_invalid() {
+    let valid_sorted_row = vec![1,2,3,4,5,6,7,8,9];
+    let invalid_grid = vec![
+        vec![1,2,3,4,5,6,7,8,9],
+        vec![2,3,4,5,6,7,8,9,1],
+        vec![3,4,5,6,7,8,9,1,2],
+        vec![4,5,6,7,8,9,1,2,3],
+        vec![5,6,7,8,9,1,2,3,4],
+        vec![6,7,8,9,1,2,3,4,5],
+        vec![7,8,9,1,2,3,4,5,6],
+        vec![8,9,1,2,3,4,5,6,7],
+        vec![9,1,2,3,4,5,6,7,8]
+    ];
+
+    assert!(!grids_are_valid(&valid_sorted_row, &invalid_grid));
 }
 
 #[cfg(test)]
@@ -81,8 +131,8 @@ mod tests {
             vec![1,2,3,4,5,6,7,8,9],
             vec![1,2,3,4,5,6,7,8,9]
         ];
-            let valid_puzzle = Puzzle { grid: grid };
-            assert!(!valid(&valid_puzzle));
+            let invalid_puzzle = Puzzle { grid: grid };
+            assert!(!valid(&invalid_puzzle));
     }
 
     #[test]
@@ -98,7 +148,7 @@ mod tests {
             vec![8,9,1,2,3,4,5,6,7],
             vec![9,1,2,3,4,5,6,7,8]
         ];
-            let valid_puzzle = Puzzle { grid: grid };
-            assert!(!valid(&valid_puzzle));
+            let invalid_puzzle = Puzzle { grid: grid };
+            assert!(!valid(&invalid_puzzle));
     }
 }
