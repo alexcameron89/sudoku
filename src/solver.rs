@@ -29,10 +29,16 @@ impl Solver {
     }
 
     fn solve_puzzle(&mut self) {
+        let mut solved_any = false;
         for square in self.unsolved() {
             if square.possible_values.len() == 1 {
                 &self.solve_square(square);
+                solved_any = true;
             }
+        }
+
+        if solved_any {
+            &self.solve_puzzle();
         }
     }
 }
