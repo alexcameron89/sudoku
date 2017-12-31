@@ -2,19 +2,9 @@ use sudoku::{Puzzle, Square};
 
 pub struct Solver {
     puzzle: Puzzle,
-    solution: Vec<Vec<isize>>,
 }
 
 impl Solver {
-    fn new(puzzle: Puzzle) -> Solver {
-        let grid = puzzle.grid.clone();
-
-        Solver {
-            puzzle: puzzle,
-            solution: grid,
-        }
-    }
-
     fn unsolved(&self) -> Vec<Square> {
         self.puzzle.squares().into_iter().filter(|ref square| !square.set).collect::<Vec<Square>>()
     }
@@ -61,7 +51,9 @@ mod tests {
             vec![8,1,4,2,5,3,7,6,9],
             vec![6,9,5,4,1,7,3,8,2]
         ];
-            let mut solver = Solver::new(Puzzle { grid: grid });
+            let solver = Solver {
+                puzzle: Puzzle { grid: grid }
+            };
             let unsolved = vec![
                 Square { row: 0, column: 0, possible_values: vec![4], set: false },
                 Square { row: 1, column: 1, possible_values: vec![6], set: false }
@@ -94,13 +86,13 @@ mod tests {
             vec![6,9,5,4,1,7,3,8,2]
         ];
             let puzzle = Puzzle { grid: grid };
-            let mut solver = Solver::new(puzzle);
+            let mut solver = Solver { puzzle: puzzle };
             solver.solve_puzzle();
             assert_eq!(correct_answer, solver.answer());
     }
 
     #[test]
-    fn it_solves_an_incomplete_puzzle_correctly() {
+    fn it_solves_an_easy_puzzle_correctly() {
         let grid = vec![
             vec![0,0,3,0,2,0,6,0,0],
             vec![9,0,0,3,0,5,0,0,1],
@@ -124,7 +116,7 @@ mod tests {
             vec![6,9,5,4,1,7,3,8,2]
         ];
             let puzzle = Puzzle { grid: grid };
-            let mut solver = Solver::new(puzzle);
+            let mut solver = Solver { puzzle: puzzle };
             solver.solve_puzzle();
             assert_eq!(correct_answer, solver.answer());
     }

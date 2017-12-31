@@ -37,7 +37,7 @@ impl Puzzle {
     }
 
     fn possible_values(&self, row: i32, column: i32) -> Vec<isize> {
-        let mut all_possible_values = vec![1,2,3,4,5,6,7,8,9];
+        let mut all_possible_values = VALID_ROW.to_vec();
         let row_numbers = &self.grid[row as usize];
         for number in row_numbers {
             all_possible_values.retain(|i| i != number);
