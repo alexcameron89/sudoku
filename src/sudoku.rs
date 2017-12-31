@@ -20,7 +20,7 @@ impl Puzzle {
                 let square = Square {
                     position: vec![row, column],
                     possible_values: self.possible_values(row, column),
-                    set: false,
+                    set: self.verify_set_number(row, column),
                 };
 
                 squares.push(square);
@@ -53,6 +53,15 @@ impl Puzzle {
         }
 
         all_possible_values
+    }
+
+    fn verify_set_number(&self, row: i32, column: i32) -> bool {
+        let zero = 0 as isize;
+        if &self.grid[row as usize][column as usize] > &zero {
+            return true
+        }
+
+        return false
     }
 
 }
