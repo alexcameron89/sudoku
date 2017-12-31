@@ -19,19 +19,20 @@ impl Solver {
         self.puzzle.squares().into_iter().filter(|ref square| !square.set).collect::<Vec<Square>>()
     }
 
-    pub fn solve_square(&self, square: Square) {
-    }
-
     fn answer(&self) -> Vec<Vec<isize>> {
         return self.puzzle.grid.to_vec();
     }
 
-    fn solve_puzzle(&self) {
+    fn solve_square(&mut self, square: Square) {
+        let square_value = square.possible_values[0];
+        self.puzzle.set_square_value(square.row, square.column, square_value);
+    }
+
+    fn solve_puzzle(&mut self) {
         for square in self.unsolved() {
-            //let options = eliminate_options(square);
-            //if options.len() == 1 {
-            //    solve_square(square);
-            //}
+            if square.possible_values.len() == 1 {
+                &self.solve_square(square);
+            }
         }
     }
 }
@@ -54,10 +55,10 @@ mod tests {
             vec![8,1,4,2,5,3,7,6,9],
             vec![6,9,5,4,1,7,3,8,2]
         ];
-            let solver = Solver::new(Puzzle { grid: grid });
+            let mut solver = Solver::new(Puzzle { grid: grid });
             let unsolved = vec![
-                Square { position: vec![0,0], possible_values: vec![4], set: false },
-                Square { position: vec![1,1], possible_values: vec![6], set: false }
+                Square { row: 0, column: 0, possible_values: vec![4], set: false },
+                Square { row: 1, column: 1, possible_values: vec![6], set: false }
             ];
             assert_eq!(unsolved, solver.unsolved());
     }
@@ -87,7 +88,7 @@ mod tests {
             vec![6,9,5,4,1,7,3,8,2]
         ];
             let puzzle = Puzzle { grid: grid };
-            let solver = Solver::new(puzzle);
+            let mut solver = Solver::new(puzzle);
             solver.solve_puzzle();
             assert_eq!(correct_answer, solver.answer());
     }
@@ -117,7 +118,7 @@ mod tests {
             vec![6,9,5,4,1,7,3,8,2]
         ];
             let puzzle = Puzzle { grid: grid };
-            let solver = Solver::new(puzzle);
+            let mut solver = Solver::new(puzzle);
             solver.solve_puzzle();
             assert_eq!(correct_answer, solver.answer());
     }

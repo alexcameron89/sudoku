@@ -6,19 +6,25 @@ pub struct Puzzle {
 
 #[derive(Debug)]
 pub struct Square {
-    pub position: Vec<i32>,
+    pub row: i32,
+    pub column: i32,
     pub possible_values: Vec<isize>,
     pub set: bool,
 }
 
 
 impl Puzzle {
+    pub fn set_square_value(&mut self, row: i32, column: i32, value: isize) {
+        self.grid[row as usize][column as usize] = value;
+    }
+
     pub fn squares(&self) -> Vec<Square> {
         let mut squares = Vec::new();
         for row in 0..9 {
             for column in 0..9 {
                 let square = Square {
-                    position: vec![row, column],
+                    row: row,
+                    column: column,
                     possible_values: self.possible_values(row, column),
                     set: self.verify_set_number(row, column),
                 };
@@ -85,7 +91,8 @@ fn it_filters_used_values_in_rows_grids_and_columns() {
 
 impl PartialEq for Square {
     fn eq(&self, other: &Square) -> bool {
-        self.position == other.position &&
+        self.row == other.row &&
+            self.column == other.column &&
             self.possible_values == other.possible_values
     }
 }
