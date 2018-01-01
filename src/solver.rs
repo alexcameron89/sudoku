@@ -18,9 +18,13 @@ impl Solver {
         self.puzzle.set_square_value(square.row, square.column, square_value);
     }
 
-    fn solve_puzzle(&mut self) {
+    fn solve_puzzle(&mut self) -> Vec<Vec<isize>> {
+        let unsolved = self.unsolved();
+        if unsolved.len() == 0 {
+            return self.answer()
+        }
         let mut solved_any = false;
-        for square in self.unsolved() {
+        for square in unsolved {
             if square.possible_values.len() == 1 {
                 &self.solve_square(square);
                 solved_any = true;
@@ -30,6 +34,8 @@ impl Solver {
         if solved_any {
             &self.solve_puzzle();
         }
+
+        return self.answer()
     }
 }
 
@@ -87,8 +93,7 @@ mod tests {
         ];
             let puzzle = Puzzle { grid: grid };
             let mut solver = Solver { puzzle: puzzle };
-            solver.solve_puzzle();
-            assert_eq!(correct_answer, solver.answer());
+            assert_eq!(correct_answer, solver.solve_puzzle());
     }
 
     #[test]
@@ -117,8 +122,7 @@ mod tests {
         ];
             let puzzle = Puzzle { grid: grid };
             let mut solver = Solver { puzzle: puzzle };
-            solver.solve_puzzle();
-            assert_eq!(correct_answer, solver.answer());
+            assert_eq!(correct_answer, solver.solve_puzzle());
     }
 
     #[test]
@@ -147,7 +151,6 @@ mod tests {
         ];
             let puzzle = Puzzle { grid: grid };
             let mut solver = Solver { puzzle: puzzle };
-            solver.solve_puzzle();
-            assert_eq!(correct_answer, solver.answer());
+            assert_eq!(correct_answer, solver.solve_puzzle());
     }
 }
