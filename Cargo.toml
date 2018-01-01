@@ -1,6 +1,6 @@
 [package]
 name = "builder"
 version = "0.1.0"
-authors = ["Alex Kitchens <alex.kitchens@stitchfix.com>"]
+authors = ["Alex Kitchens <alexcameron98@gmail.com>"]
 
 [dependencies]
