@@ -13,7 +13,7 @@ impl Solver {
         return self.puzzle.grid.to_vec();
     }
 
-    fn solve_square(&mut self, square: Square) {
+    fn solve_square(&mut self, square: &Square) {
         let square_value = square.possible_values[0];
         self.puzzle.set_square_value(square.row, square.column, square_value);
     }
@@ -24,19 +24,32 @@ impl Solver {
             return self.answer()
         }
         let mut solved_any = false;
-        for square in unsolved {
+        for square in &unsolved {
             if square.possible_values.len() == 1 {
-                &self.solve_square(square);
+                &self.solve_square(&square);
                 solved_any = true;
             }
         }
 
         if solved_any {
             &self.solve_puzzle();
+        } else {
+            let square = &self.choose_random_square(&unsolved);
+            let values = &self.randomize(&square.possible_values);
+            for value in values {
+            }
         }
 
         return self.answer()
     }
+
+    fn choose_random_square<'a>(&self, squares: &'a Vec<Square>) -> &'a Square {
+        &squares[0]
+    }
+
+    fn randomize(&self, values: &Vec<isize>) -> Vec<isize> {
+        values.to_vec()
+   }
 }
 
 #[cfg(test)]
