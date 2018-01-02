@@ -93,20 +93,20 @@ mod tests {
             vec![0,1,4,2,5,3,7,6,9],
             vec![0,9,5,4,1,7,3,8,2]
         ];
-        let correct_answer = vec![
-            vec![4,8,3,9,2,1,6,5,7],
-            vec![9,6,7,3,4,5,8,2,1],
-            vec![2,5,1,8,7,6,4,9,3],
-            vec![5,4,8,1,3,2,9,7,6],
-            vec![7,2,9,5,6,4,1,3,8],
-            vec![1,3,6,7,9,8,2,4,5],
-            vec![3,7,2,6,8,9,5,1,4],
-            vec![8,1,4,2,5,3,7,6,9],
-            vec![6,9,5,4,1,7,3,8,2]
-        ];
-            let puzzle = Puzzle { grid: grid };
-            let mut solver = Solver { puzzle: puzzle };
-            assert_eq!(correct_answer, solver.solve_puzzle());
+            let correct_answer = vec![
+                vec![4,8,3,9,2,1,6,5,7],
+                vec![9,6,7,3,4,5,8,2,1],
+                vec![2,5,1,8,7,6,4,9,3],
+                vec![5,4,8,1,3,2,9,7,6],
+                vec![7,2,9,5,6,4,1,3,8],
+                vec![1,3,6,7,9,8,2,4,5],
+                vec![3,7,2,6,8,9,5,1,4],
+                vec![8,1,4,2,5,3,7,6,9],
+                vec![6,9,5,4,1,7,3,8,2]
+            ];
+                let puzzle = Puzzle { grid: grid };
+                let mut solver = Solver { puzzle: puzzle };
+                assert_eq!(correct_answer, solver.solve_puzzle());
     }
 
     #[test]
@@ -122,20 +122,20 @@ mod tests {
             vec![8,0,0,2,0,3,0,0,9],
             vec![0,0,5,0,1,0,3,0,0]
         ];
-        let correct_answer = vec![
-            vec![4,8,3,9,2,1,6,5,7],
-            vec![9,6,7,3,4,5,8,2,1],
-            vec![2,5,1,8,7,6,4,9,3],
-            vec![5,4,8,1,3,2,9,7,6],
-            vec![7,2,9,5,6,4,1,3,8],
-            vec![1,3,6,7,9,8,2,4,5],
-            vec![3,7,2,6,8,9,5,1,4],
-            vec![8,1,4,2,5,3,7,6,9],
-            vec![6,9,5,4,1,7,3,8,2]
-        ];
-            let puzzle = Puzzle { grid: grid };
-            let mut solver = Solver { puzzle: puzzle };
-            assert_eq!(correct_answer, solver.solve_puzzle());
+            let correct_answer = vec![
+                vec![4,8,3,9,2,1,6,5,7],
+                vec![9,6,7,3,4,5,8,2,1],
+                vec![2,5,1,8,7,6,4,9,3],
+                vec![5,4,8,1,3,2,9,7,6],
+                vec![7,2,9,5,6,4,1,3,8],
+                vec![1,3,6,7,9,8,2,4,5],
+                vec![3,7,2,6,8,9,5,1,4],
+                vec![8,1,4,2,5,3,7,6,9],
+                vec![6,9,5,4,1,7,3,8,2]
+            ];
+                let puzzle = Puzzle { grid: grid };
+                let mut solver = Solver { puzzle: puzzle };
+                assert_eq!(correct_answer, solver.solve_puzzle());
     }
 
     #[test]
@@ -151,19 +151,19 @@ mod tests {
             vec![0,3,0,0,1,8,0,5,0],
             vec![0,0,0,0,0,0,2,0,0]
         ];
-        let correct_answer = vec![
-            vec![6,9,3,8,5,1,4,7,2],
-            vec![4,1,7,2,6,9,3,8,5],
-            vec![2,8,5,3,7,4,9,1,6],
-            vec![1,7,6,9,3,5,8,2,4],
-            vec![9,2,8,1,4,7,5,6,3],
-            vec![3,5,4,6,8,2,7,9,1],
-            vec![5,6,9,7,2,3,1,4,8],
-            vec![7,3,2,4,1,8,6,5,9],
-            vec![8,4,1,5,0,6,2,3,7]
-        ];
-            let puzzle = Puzzle { grid: grid };
-            let mut solver = Solver { puzzle: puzzle };
-            assert_eq!(correct_answer, solver.solve_puzzle());
+            let correct_answer = vec![
+                vec![6,9,3,8,5,1,4,7,2],
+                vec![4,1,7,2,6,9,3,8,5],
+                vec![2,8,5,3,7,4,9,1,6],
+                vec![1,7,6,9,3,5,8,2,4],
+                vec![9,2,8,1,4,7,5,6,3],
+                vec![3,5,4,6,8,2,7,9,1],
+                vec![5,6,9,7,2,3,1,4,8],
+                vec![7,3,2,4,1,8,6,5,9],
+                vec![8,4,1,5,0,6,2,3,7]
+            ];
+                let puzzle = Puzzle { grid: grid };
+                let mut solver = Solver { puzzle: puzzle };
+                assert_eq!(correct_answer, solver.solve_puzzle());
     }
 }

@@ -35,19 +35,21 @@ fn rows_are_valid(puzzle_grid: &Vec<Vec<isize>>) -> bool {
 }
 
 fn columns_are_valid(puzzle_grid: &Vec<Vec<isize>>) -> bool {
-  for column in 0..9 {
-      let mut sorted_row = vec![0; 9];
-      for row in 0..9 {
-          let number = puzzle_grid[row][column];
-          sorted_row[(number - 1) as usize] = number;
-      }
+    for column in 0..9 {
+        let mut row_to_sort = Vec::new();
+        for row in 0..9 {
+            let number = puzzle_grid[row][column];
+            row_to_sort.push(number);
+        }
 
-      if !row_is_valid(&sorted_row) {
-          return false
-      }
-  }
+        row_to_sort.sort();
 
-  return true
+        if !row_is_valid(&row_to_sort) {
+            return false
+        }
+    }
+
+    return true
 }
 
 fn grids_are_valid(puzzle_grid: &Vec<Vec<isize>>) -> bool {
@@ -80,7 +82,7 @@ fn duplicate_numbers_in_a_grid_are_invalid() {
         vec![9,1,2,3,4,5,6,7,8]
     ];
 
-    assert!(!grids_are_valid(&invalid_grid));
+        assert!(!grids_are_valid(&invalid_grid));
 }
 
 fn build_grid_groups(puzzle_grid: &Vec<Vec<isize>>) -> Vec<Vec<Vec<isize>>> {
