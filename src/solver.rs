@@ -1,4 +1,5 @@
 use sudoku::{Puzzle, Square};
+use validator::valid;
 
 pub struct Solver {
     puzzle: Puzzle,
@@ -37,6 +38,11 @@ impl Solver {
             let square = &self.choose_random_square(&unsolved);
             let values = &self.randomize(&square.possible_values);
             for value in values {
+                let mut new_puzzle = self.clone_and_set(&square.row, &square.column, value);
+                new_puzzle.solve_puzzle();
+                if valid(&new_puzzle.puzzle) {
+                    self.puzzle.grid = new_puzzle.puzzle.grid.to_vec();
+                }
             }
         }
 
@@ -44,18 +50,30 @@ impl Solver {
     }
 
     fn choose_random_square<'a>(&self, squares: &'a Vec<Square>) -> &'a Square {
+        //TODO: Randomize
         &squares[0]
     }
 
     fn randomize(&self, values: &Vec<isize>) -> Vec<isize> {
+        //TODO: Randomize
         values.to_vec()
-   }
+    }
+
+    fn clone_and_set(&self, row: &i32, column: &i32, value: &isize) -> Solver {
+        let mut new_puzzle = self.puzzle.clone();
+        new_puzzle.set_square_value(row.abs(), column.abs(), value.abs());
+
+        Solver {
+            puzzle: new_puzzle,
+        }
+    }
 }
 
 #[cfg(test)]
 mod tests {
     use solver::Solver;
     use sudoku::{Puzzle,Square};
+    use validator::valid;
 
     #[test]
     fn it_keeps_track_of_unsolved_squares() {
@@ -160,7 +178,7 @@ mod tests {
                 vec![3,5,4,6,8,2,7,9,1],
                 vec![5,6,9,7,2,3,1,4,8],
                 vec![7,3,2,4,1,8,6,5,9],
-                vec![8,4,1,5,0,6,2,3,7]
+                vec![8,4,1,5,9,6,2,3,7]
             ];
                 let puzzle = Puzzle { grid: grid };
                 let mut solver = Solver { puzzle: puzzle };
