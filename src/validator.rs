@@ -2,10 +2,10 @@ use sudoku::Puzzle;
 
 const VALID_SORTED_ROW: [isize; 9] = [1,2,3,4,5,6,7,8,9];
 
-pub fn valid(puzzle: &Puzzle) -> bool {
-    let rows_are_valid = rows_are_valid(&puzzle.grid);
-    let columns_are_valid = columns_are_valid(&puzzle.grid);
-    let grids_are_valid = grids_are_valid(&puzzle.grid);
+pub fn valid(puzzle: &Vec<Vec<isize>>) -> bool {
+    let rows_are_valid = rows_are_valid(&puzzle);
+    let columns_are_valid = columns_are_valid(&puzzle);
+    let grids_are_valid = grids_are_valid(&puzzle);
 
     return rows_are_valid
         && columns_are_valid
@@ -116,7 +116,7 @@ mod tests {
 
     #[test]
     fn it_returns_a_valid_puzzle_as_valid() {
-        let grid = vec![
+        let valid_puzzle = vec![
             vec![4,2,9,8,1,3,5,6,7],
             vec![5,1,6,4,7,2,9,3,8],
             vec![7,8,3,6,5,9,2,4,1],
@@ -127,13 +127,12 @@ mod tests {
             vec![9,3,4,5,2,8,7,1,6],
             vec![2,6,7,9,4,1,3,8,5]
         ];
-            let valid_puzzle = Puzzle { grid: grid };
             assert!(valid(&valid_puzzle));
     }
 
     #[test]
     fn it_returns_an_invalid_puzzle_as_invalid() {
-        let grid = vec![
+        let invalid_puzzle = vec![
             vec![1,2,3,4,5,6,7,8,9],
             vec![1,2,3,4,5,6,7,8,9],
             vec![1,2,3,4,5,6,7,8,9],
@@ -144,13 +143,12 @@ mod tests {
             vec![1,2,3,4,5,6,7,8,9],
             vec![1,2,3,4,5,6,7,8,9]
         ];
-            let invalid_puzzle = Puzzle { grid: grid };
             assert!(!valid(&invalid_puzzle));
     }
 
     #[test]
     fn it_returns_a_second_invalid_puzzle_as_invalid() {
-        let grid = vec![
+        let invalid_puzzle = vec![
             vec![1,2,3,4,5,6,7,8,9],
             vec![2,3,4,5,6,7,8,9,1],
             vec![3,4,5,6,7,8,9,1,2],
@@ -161,7 +159,6 @@ mod tests {
             vec![8,9,1,2,3,4,5,6,7],
             vec![9,1,2,3,4,5,6,7,8]
         ];
-            let invalid_puzzle = Puzzle { grid: grid };
             assert!(!valid(&invalid_puzzle));
     }
 }

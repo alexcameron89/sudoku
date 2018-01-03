@@ -5,7 +5,7 @@ use sudoku::{Puzzle, Square};
 use validator::valid;
 
 pub struct Solver {
-    puzzle: Puzzle,
+    pub puzzle: Puzzle,
 }
 
 impl Solver {
@@ -13,7 +13,7 @@ impl Solver {
         self.puzzle.squares().into_iter().filter(|ref square| !square.set).collect::<Vec<Square>>()
     }
 
-    fn answer(&self) -> Vec<Vec<isize>> {
+    pub fn answer(&self) -> Vec<Vec<isize>> {
         return self.puzzle.grid.to_vec();
     }
 
@@ -22,7 +22,7 @@ impl Solver {
         self.puzzle.set_square_value(square.row, square.column, square_value);
     }
 
-    fn solve_puzzle(&mut self) -> Vec<Vec<isize>> {
+    pub fn solve_puzzle(&mut self) -> Vec<Vec<isize>> {
         let unsolved = self.unsolved();
         if unsolved.len() == 0 {
             return self.answer()
@@ -43,7 +43,7 @@ impl Solver {
             for value in values {
                 let mut new_puzzle = self.clone_and_set(&square.row, &square.column, value);
                 new_puzzle.solve_puzzle();
-                if valid(&new_puzzle.puzzle) {
+                if valid(&new_puzzle.answer()) {
                     self.puzzle.grid = new_puzzle.puzzle.grid.to_vec();
                 }
             }
