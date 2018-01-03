@@ -9,6 +9,11 @@ pub struct Solver {
 }
 
 impl Solver {
+    pub fn solve(puzzle: &Puzzle) -> Vec<Vec<isize>> {
+        let mut solver = Solver { puzzle: puzzle.clone() };
+        solver.solve_puzzle()
+    }
+
     fn unsolved(&self) -> Vec<Square> {
         self.puzzle.squares().into_iter().filter(|ref square| !square.set).collect::<Vec<Square>>()
     }
