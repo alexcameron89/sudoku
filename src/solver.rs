@@ -1,3 +1,6 @@
+extern crate rand;
+use rand::Rng;
+use rand::distributions::{IndependentSample, Range};
 use sudoku::{Puzzle, Square};
 use validator::valid;
 
@@ -50,13 +53,16 @@ impl Solver {
     }
 
     fn choose_random_square<'a>(&self, squares: &'a Vec<Square>) -> &'a Square {
-        //TODO: Randomize
-        &squares[0]
+        let mut rng = rand::thread_rng();
+        let random_square = Range::new(0, squares.len());
+        &squares[random_square.ind_sample(&mut rng)]
     }
 
     fn randomize(&self, values: &Vec<isize>) -> Vec<isize> {
-        //TODO: Randomize
-        values.to_vec()
+        let mut new_values = values.to_vec();
+        rand::thread_rng().shuffle(&mut new_values);
+
+        new_values.to_vec()
     }
 
     fn clone_and_set(&self, row: &i32, column: &i32, value: &isize) -> Solver {
