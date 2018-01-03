@@ -15,7 +15,7 @@ impl Solver {
     }
 
     fn unsolved(&self) -> Vec<Square> {
-        self.puzzle.squares().into_iter().filter(|ref square| !square.set).collect::<Vec<Square>>()
+        self.puzzle.unsolved_squares()
     }
 
     pub fn answer(&self) -> Vec<Vec<isize>> {

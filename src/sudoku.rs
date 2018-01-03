@@ -19,18 +19,20 @@ impl Puzzle {
         self.grid[row as usize][column as usize] = value;
     }
 
-    pub fn squares(&self) -> Vec<Square> {
+    pub fn unsolved_squares(&self) -> Vec<Square> {
         let mut squares = Vec::new();
         for row in 0..9 {
             for column in 0..9 {
-                let square = Square {
-                    row: row,
-                    column: column,
-                    possible_values: self.possible_values(row, column),
-                    set: self.verify_set_number(row, column),
-                };
+                if !self.verify_set_number(row, column) {
+                    let square = Square {
+                        row: row,
+                        column: column,
+                        possible_values: self.possible_values(row, column),
+                        set: false,
+                    };
 
-                squares.push(square);
+                    squares.push(square);
+                }
             }
         }
 
