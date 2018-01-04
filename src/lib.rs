@@ -11,6 +11,7 @@ pub mod validator;
 mod benchmarks {
     use solver::Solver;
     use sudoku::Puzzle;
+    use builder::build_complete_puzzle;
     use test::Bencher;
 
     #[bench]
@@ -46,5 +47,11 @@ mod benchmarks {
         let puzzle = Puzzle { grid: grid };
         let mut solver = Solver { puzzle: puzzle };
         b.iter(|| solver.solve_puzzle());
+    }
+
+    #[ignore] //This takes to long to benchmark
+    #[bench]
+    fn bench_building_puzzles(b: &mut Bencher) {
+        b.iter(|| build_complete_puzzle());
     }
 }
