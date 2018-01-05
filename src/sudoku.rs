@@ -27,7 +27,7 @@ impl Puzzle {
                     let square = Square {
                         row: row,
                         column: column,
-                        possible_values: self.possible_values(row, column),
+                        possible_values: vec![1,2,3,4,5,6,7,8,9],
                         set: false,
                     };
 
@@ -39,7 +39,7 @@ impl Puzzle {
         squares
     }
 
-    fn possible_values(&self, row: i32, column: i32) -> Vec<isize> {
+    pub fn possible_values(&self, row: i32, column: i32) -> Vec<isize> {
         let mut all_possible_values = VALID_ROW.to_vec();
         let row_numbers = &self.grid[row as usize];
         for number in row_numbers {
@@ -95,7 +95,6 @@ fn it_filters_used_values_in_rows_grids_and_columns() {
 impl PartialEq for Square {
     fn eq(&self, other: &Square) -> bool {
         self.row == other.row &&
-            self.column == other.column &&
-            self.possible_values == other.possible_values
+            self.column == other.column
     }
 }

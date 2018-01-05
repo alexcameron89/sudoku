@@ -22,8 +22,7 @@ impl Solver {
         return self.puzzle.grid.to_vec();
     }
 
-    fn solve_square(&mut self, square: &Square) {
-        let square_value = square.possible_values[0];
+    fn solve_square(&mut self, square: &Square, square_value: isize) {
         self.puzzle.set_square_value(square.row, square.column, square_value);
     }
 
@@ -34,8 +33,9 @@ impl Solver {
         }
         let mut solved_any = false;
         for square in &unsolved {
-            if square.possible_values.len() == 1 {
-                &self.solve_square(&square);
+            let possible_values = self.puzzle.possible_values(square.row, square.column);
+            if possible_values.len() == 1 {
+                &self.solve_square(&square, possible_values[0]);
                 solved_any = true;
             }
         }
@@ -44,7 +44,7 @@ impl Solver {
             &self.solve_puzzle();
         } else {
             let square = &self.choose_random_square(&unsolved);
-            let values = &self.randomize(&square.possible_values);
+            let values = &self.randomize(&square);
             for value in values {
                 let mut new_puzzle = self.clone_and_set(&square.row, &square.column, value);
                 new_puzzle.solve_puzzle();
@@ -63,11 +63,11 @@ impl Solver {
         &squares[random_square.ind_sample(&mut rng)]
     }
 
-    fn randomize(&self, values: &Vec<isize>) -> Vec<isize> {
-        let mut new_values = values.to_vec();
-        rand::thread_rng().shuffle(&mut new_values);
+    fn randomize(&self, square: &Square) -> Vec<isize> {
+        let mut possible_values = self.puzzle.possible_values(square.row, square.column);
+        rand::thread_rng().shuffle(&mut possible_values);
 
-        new_values.to_vec()
+        possible_values
     }
 
     fn clone_and_set(&self, row: &i32, column: &i32, value: &isize) -> Solver {
@@ -103,8 +103,8 @@ mod tests {
                 puzzle: Puzzle { grid: grid }
             };
             let unsolved = vec![
-                Square { row: 0, column: 0, possible_values: vec![4], set: false },
-                Square { row: 1, column: 1, possible_values: vec![6], set: false }
+                Square { row: 0, column: 0, possible_values: vec![], set: false },
+                Square { row: 1, column: 1, possible_values: vec![], set: false }
             ];
             assert_eq!(unsolved, solver.unsolved());
     }
