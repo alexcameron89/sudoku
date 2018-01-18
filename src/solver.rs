@@ -195,4 +195,33 @@ mod tests {
                 let mut solver = Solver { puzzle: puzzle };
                 assert_eq!(correct_answer, solver.solve_puzzle());
     }
+
+    #[test]
+    fn it_solves_an_insane_puzzle_correctly() {
+        let grid = vec![
+            vec![3,0,0,7,0,0,0,0,0],
+            vec![9,0,0,0,0,8,0,7,4],
+            vec![0,0,0,3,0,5,0,0,6],
+            vec![1,0,0,0,0,0,0,4,2],
+            vec![0,7,0,0,0,0,0,9,0],
+            vec![6,8,0,0,0,0,0,0,5],
+            vec![7,0,0,5,0,6,0,0,0],
+            vec![4,1,0,8,0,0,0,0,7],
+            vec![0,0,0,0,0,7,0,0,9]
+        ];
+            let correct_answer = vec![
+                vec![3,6,2,7,9,4,5,8,1],
+                vec![9,5,1,2,6,8,3,7,4],
+                vec![8,4,7,3,1,5,9,2,6],
+                vec![1,9,5,6,8,3,7,4,2],
+                vec![2,7,3,4,5,1,6,9,8],
+                vec![6,8,4,9,7,2,1,3,5],
+                vec![7,2,9,5,4,6,8,1,3],
+                vec![4,1,6,8,3,9,2,5,7],
+                vec![5,3,8,1,2,7,4,6,9]
+            ];
+                let puzzle = Puzzle { grid: grid };
+                let mut solver = Solver { puzzle: puzzle };
+                assert_eq!(correct_answer, solver.solve_puzzle());
+    }
 }
