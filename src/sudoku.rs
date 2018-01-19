@@ -23,7 +23,7 @@ impl Puzzle {
         let mut squares = Vec::new();
         for row in 0..9 {
             for column in 0..9 {
-                if !self.verify_set_number(row, column) {
+                if !self.verify_set_number(row as usize, column as usize) {
                     let square = Square {
                         row: row,
                         column: column,
@@ -64,9 +64,8 @@ impl Puzzle {
         all_possible_values
     }
 
-    fn verify_set_number(&self, row: i32, column: i32) -> bool {
-        let zero = 0 as isize;
-        if &self.grid[row as usize][column as usize] > &zero {
+    fn verify_set_number(&self, row: usize, column: usize) -> bool {
+        if &self.grid[row][column] > &(0 as isize) {
             return true
         }
 

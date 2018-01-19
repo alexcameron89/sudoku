@@ -14,16 +14,8 @@ impl Solver {
         solver.solve_puzzle()
     }
 
-    fn unsolved(&self) -> Vec<Square> {
-        self.puzzle.unsolved_squares()
-    }
-
     pub fn answer(&self) -> Vec<Vec<isize>> {
         return self.puzzle.grid.to_vec();
-    }
-
-    fn solve_square(&mut self, square: &Square, square_value: isize) {
-        self.puzzle.set_square_value(square.row, square.column, square_value);
     }
 
     pub fn solve_puzzle(&mut self) -> Vec<Vec<isize>> {
@@ -50,11 +42,20 @@ impl Solver {
                 new_puzzle.solve_puzzle();
                 if valid(&new_puzzle.answer()) {
                     self.puzzle.grid = new_puzzle.puzzle.grid.to_vec();
+                    break;
                 }
             }
         }
 
         return self.answer()
+    }
+
+    fn unsolved(&self) -> Vec<Square> {
+        self.puzzle.unsolved_squares()
+    }
+
+    fn solve_square(&mut self, square: &Square, square_value: isize) {
+        self.puzzle.set_square_value(square.row, square.column, square_value);
     }
 
     fn choose_random_square<'a>(&self, squares: &'a Vec<Square>) -> &'a Square {
