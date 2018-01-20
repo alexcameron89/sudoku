@@ -14,7 +14,8 @@ pub mod validator;
 
 #[cfg(test)]
 mod benchmarks {
-    use solver::Solver;
+    use solver;
+    use solver::{Solver};
     use sudoku::Puzzle;
     use builder::build_complete_puzzle;
     use test::Bencher;
@@ -33,7 +34,7 @@ mod benchmarks {
             vec![0,0,5,0,1,0,3,0,0]
         ];
         let puzzle = Puzzle { grid: grid };
-        b.iter(|| Solver::solve(&puzzle));
+        b.iter(|| solver::solve(&puzzle));
     }
 
     #[bench]

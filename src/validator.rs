@@ -68,23 +68,6 @@ fn grids_are_valid(puzzle_grid: &Vec<Vec<isize>>) -> bool {
     return true
 }
 
-#[test]
-fn duplicate_numbers_in_a_grid_are_invalid() {
-    let invalid_grid = vec![
-        vec![1,2,3,4,5,6,7,8,9],
-        vec![2,3,4,5,6,7,8,9,1],
-        vec![3,4,5,6,7,8,9,1,2],
-        vec![4,5,6,7,8,9,1,2,3],
-        vec![5,6,7,8,9,1,2,3,4],
-        vec![6,7,8,9,1,2,3,4,5],
-        vec![7,8,9,1,2,3,4,5,6],
-        vec![8,9,1,2,3,4,5,6,7],
-        vec![9,1,2,3,4,5,6,7,8]
-    ];
-
-        assert!(!grids_are_valid(&invalid_grid));
-}
-
 fn build_grid_groups(puzzle_grid: &Vec<Vec<isize>>) -> Vec<Vec<Vec<isize>>> {
     let mut grids = vec![];
     let mut grid_group_number = 0;
@@ -111,7 +94,7 @@ fn build_grid_groups(puzzle_grid: &Vec<Vec<isize>>) -> Vec<Vec<Vec<isize>>> {
 
 #[cfg(test)]
 mod tests {
-    use validator::valid;
+    use super::*;
     use sudoku::Puzzle;
 
     #[test]
@@ -127,7 +110,7 @@ mod tests {
             vec![9,3,4,5,2,8,7,1,6],
             vec![2,6,7,9,4,1,3,8,5]
         ];
-            assert!(valid(&valid_puzzle));
+        assert!(valid(&valid_puzzle));
     }
 
     #[test]
@@ -143,7 +126,7 @@ mod tests {
             vec![1,2,3,4,5,6,7,8,9],
             vec![1,2,3,4,5,6,7,8,9]
         ];
-            assert!(!valid(&invalid_puzzle));
+        assert!(!valid(&invalid_puzzle));
     }
 
     #[test]
@@ -159,6 +142,23 @@ mod tests {
             vec![8,9,1,2,3,4,5,6,7],
             vec![9,1,2,3,4,5,6,7,8]
         ];
-            assert!(!valid(&invalid_puzzle));
+        assert!(!valid(&invalid_puzzle));
+    }
+
+    #[test]
+    fn duplicate_numbers_in_a_grid_are_invalid() {
+        let invalid_grid = vec![
+            vec![1,2,3,4,5,6,7,8,9],
+            vec![2,3,4,5,6,7,8,9,1],
+            vec![3,4,5,6,7,8,9,1,2],
+            vec![4,5,6,7,8,9,1,2,3],
+            vec![5,6,7,8,9,1,2,3,4],
+            vec![6,7,8,9,1,2,3,4,5],
+            vec![7,8,9,1,2,3,4,5,6],
+            vec![8,9,1,2,3,4,5,6,7],
+            vec![9,1,2,3,4,5,6,7,8]
+        ];
+
+        assert!(!grids_are_valid(&invalid_grid));
     }
 }

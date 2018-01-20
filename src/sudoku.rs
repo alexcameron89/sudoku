@@ -74,26 +74,31 @@ impl Puzzle {
 
 }
 
-#[test]
-fn it_filters_used_values_in_rows_grids_and_columns() {
-    let grid = vec![
-        vec![0,0,0,0,1,0,0,0,0],
-        vec![0,0,0,0,0,0,0,0,0],
-        vec![0,0,0,0,0,0,0,0,0],
-        vec![0,0,0,7,0,8,0,0,0],
-        vec![4,0,5,0,0,0,0,6,0],
-        vec![0,0,9,0,0,0,0,0,0],
-        vec![0,0,0,0,2,0,0,0,0],
-        vec![0,0,0,0,0,0,0,0,0],
-        vec![0,0,0,0,0,0,3,0,0]
-    ];
-        let puzzle = Puzzle { grid: grid };
-        assert_eq!(vec![3,9], puzzle.possible_values(4, 4));
-}
-
 impl PartialEq for Square {
     fn eq(&self, other: &Square) -> bool {
         self.row == other.row &&
             self.column == other.column
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn it_filters_used_values_in_rows_grids_and_columns() {
+        let grid = vec![
+            vec![0,0,0,0,1,0,0,0,0],
+            vec![0,0,0,0,0,0,0,0,0],
+            vec![0,0,0,0,0,0,0,0,0],
+            vec![0,0,0,7,0,8,0,0,0],
+            vec![4,0,5,0,0,0,0,6,0],
+            vec![0,0,9,0,0,0,0,0,0],
+            vec![0,0,0,0,2,0,0,0,0],
+            vec![0,0,0,0,0,0,0,0,0],
+            vec![0,0,0,0,0,0,3,0,0]
+        ];
+            let puzzle = Puzzle { grid: grid };
+            assert_eq!(vec![3,9], puzzle.possible_values(4, 4));
     }
 }
