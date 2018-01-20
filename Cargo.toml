@@ -1,5 +1,5 @@
 [package]
-name = "builder"
+name = "sudoku"
 version = "0.1.0"
 authors = ["Alex Kitchens <alexcameron98@gmail.com>"]
 
