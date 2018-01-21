@@ -14,8 +14,7 @@ pub mod validator;
 
 #[cfg(test)]
 mod benchmarks {
-    use solver;
-    use solver::{Solver};
+    use solver::{self, Solver};
     use sudoku::Puzzle;
     use builder::build_complete_puzzle;
     use test::Bencher;
