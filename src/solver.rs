@@ -101,7 +101,7 @@ mod tests {
             vec![6,9,5,4,1,7,3,8,2]
         ];
             let solver = Solver {
-                puzzle: Puzzle { grid: grid }
+                puzzle: Puzzle::new(grid)
             };
             let unsolved = vec![
                 Square { row: 0, column: 0, possible_values: vec![], set: false },
@@ -134,7 +134,7 @@ mod tests {
             vec![8,1,4,2,5,3,7,6,9],
             vec![6,9,5,4,1,7,3,8,2]
         ];
-        let puzzle = Puzzle { grid: grid };
+        let puzzle = Puzzle::new(grid);
         let mut solver = Solver { puzzle: puzzle };
         assert_eq!(correct_answer, solver.solve_puzzle());
     }

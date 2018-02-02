@@ -27,7 +27,7 @@ fn it_solves_an_easy_puzzle_correctly() {
         vec![8,1,4,2,5,3,7,6,9],
         vec![6,9,5,4,1,7,3,8,2]
     ];
-    let puzzle = Puzzle { grid: grid };
+    let puzzle = Puzzle::new(grid);
     assert_eq!(correct_answer, solver::solve(&puzzle));
 }
 
@@ -55,7 +55,7 @@ fn it_solves_a_hard_puzzle_correctly() {
         vec![7,3,2,4,1,8,6,5,9],
         vec![8,4,1,5,9,6,2,3,7]
     ];
-    let puzzle = Puzzle { grid: grid };
+    let puzzle = Puzzle::new(grid);
     assert_eq!(correct_answer, solver::solve(&puzzle));
 }
 
@@ -83,7 +83,7 @@ fn it_solves_an_insane_puzzle_correctly() {
         vec![4,1,6,8,3,9,2,5,7],
         vec![5,3,8,1,2,7,4,6,9]
     ];
-    let puzzle = Puzzle { grid: grid };
+    let puzzle = Puzzle::new(grid);
     assert_eq!(correct_answer, solver::solve(&puzzle));
 }
 

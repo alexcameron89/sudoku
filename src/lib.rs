@@ -32,7 +32,7 @@ mod benchmarks {
             vec![8,0,0,2,0,3,0,0,9],
             vec![0,0,5,0,1,0,3,0,0]
         ];
-        let puzzle = Puzzle { grid: grid };
+        let puzzle = Puzzle::new(grid);
         b.iter(|| solver::solve(&puzzle));
     }
 
@@ -49,7 +49,7 @@ mod benchmarks {
             vec![0,3,0,0,1,8,0,5,0],
             vec![0,0,0,0,0,0,2,0,0]
         ];
-        let puzzle = Puzzle { grid: grid };
+        let puzzle = Puzzle::new(grid);
         let mut solver = Solver { puzzle: puzzle };
         b.iter(|| solver.solve_puzzle());
     }
@@ -67,7 +67,7 @@ mod benchmarks {
             vec![4,1,0,8,0,0,0,0,7],
             vec![0,0,0,0,0,7,0,0,9]
         ];
-        let puzzle = Puzzle { grid: grid };
+        let puzzle = Puzzle::new(grid);
         let mut solver = Solver { puzzle: puzzle };
         b.iter(|| solver.solve_puzzle());
     }
