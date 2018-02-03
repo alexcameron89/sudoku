@@ -25,7 +25,7 @@ impl Solver {
         }
         let mut solved_any = false;
         for square in &unsolved {
-            let possible_values = self.puzzle.possible_values(square.row, square.column);
+            let possible_values = square.possible_values(self.puzzle.grid.to_vec());
             if possible_values.len() == 1 {
                 &self.solve_square(&square, possible_values[0]);
                 solved_any = true;
@@ -65,7 +65,7 @@ impl Solver {
     }
 
     fn randomize(&self, square: &Square) -> Vec<isize> {
-        let mut possible_values = self.puzzle.possible_values(square.row, square.column);
+        let mut possible_values = square.possible_values(self.puzzle.grid.to_vec());
         rand::thread_rng().shuffle(&mut possible_values);
 
         possible_values
@@ -104,8 +104,8 @@ mod tests {
                 puzzle: Puzzle::new(grid)
             };
             let unsolved = vec![
-                Square { row: 0, column: 0, possible_values: vec![], set: false },
-                Square { row: 1, column: 1, possible_values: vec![], set: false }
+                Square { row: 0, column: 0, possible_values: None, set: false },
+                Square { row: 1, column: 1, possible_values: None, set: false }
             ];
             assert_eq!(unsolved, solver.unsolved());
     }

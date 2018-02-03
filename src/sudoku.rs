@@ -10,7 +10,7 @@ pub struct Puzzle {
 pub struct Square {
     pub row: i32,
     pub column: i32,
-    pub possible_values: Vec<isize>,
+    pub possible_values: Option<Vec<isize>>,
     pub set: bool,
 }
 
@@ -41,31 +41,6 @@ impl Puzzle {
         }
     }
 
-    pub fn possible_values(&self, row: i32, column: i32) -> Vec<isize> {
-        let mut all_possible_values = VALID_ROW.to_vec();
-        let row_numbers = &self.grid[row as usize];
-        for number in row_numbers {
-            all_possible_values.retain(|i| i != number);
-        }
-        for number in 0..9 {
-            all_possible_values.retain(|i| i != &self.grid[number][column as usize]);
-        }
-        let expected_column_grid = column / 3;
-        let expected_row_grid = row / 3;
-        for row in 0..9 {
-            for column in 0..9 {
-                let current_row_grid = row / 3;
-                let current_column_grid = column / 3;
-                if (current_row_grid == expected_row_grid) &&
-                    (current_column_grid == expected_column_grid) {
-                        all_possible_values.retain(|i| i != &self.grid[row as usize][column as usize]);
-                    }
-            }
-        }
-
-        all_possible_values
-    }
-
     fn build_unsolved_squares(grid: &Vec<Vec<isize>>) -> Option<Vec<Square>> {
         let mut squares = Vec::new();
         for row in 0..9 {
@@ -74,7 +49,7 @@ impl Puzzle {
                     let square = Square {
                         row: row,
                         column: column,
-                        possible_values: vec![1,2,3,4,5,6,7,8,9],
+                        possible_values: None,
                         set: false,
                     };
 
@@ -106,6 +81,33 @@ impl PartialEq for Square {
     }
 }
 
+impl Square {
+    pub fn possible_values(&self, grid: Vec<Vec<isize>>) -> Vec<isize> {
+        let mut all_possible_values = VALID_ROW.to_vec();
+        let row_numbers = &grid[self.row as usize];
+        for number in row_numbers {
+            all_possible_values.retain(|i| i != number);
+        }
+        for number in 0..9 {
+            all_possible_values.retain(|i| *i != grid[number][self.column as usize]);
+        }
+        let expected_column_grid = self.column / 3;
+        let expected_row_grid = self.row / 3;
+        for row_number in 0..9 {
+            for column_number in 0..9 {
+                let current_row_grid = row_number / 3;
+                let current_column_grid = column_number / 3;
+                if (current_row_grid == expected_row_grid) &&
+                    (current_column_grid == expected_column_grid) {
+                        all_possible_values.retain(|i| *i != grid[row_number as usize][column_number as usize]);
+                    }
+            }
+        }
+
+        all_possible_values
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -123,7 +125,12 @@ mod tests {
             vec![0,0,0,0,0,0,0,0,0],
             vec![0,0,0,0,0,0,3,0,0]
         ];
-            let puzzle = Puzzle::new(grid);
-            assert_eq!(vec![3,9], puzzle.possible_values(4, 4));
+            let square = Square {
+                row: 4,
+                column: 4,
+                possible_values: None,
+                set: false
+            };
+            assert_eq!(vec![3,9], square.possible_values(grid));
     }
 }
