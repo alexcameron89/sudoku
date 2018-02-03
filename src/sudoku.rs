@@ -41,6 +41,31 @@ impl Puzzle {
         }
     }
 
+    pub fn possible_values(&self, row: i32, column: i32) -> Vec<isize> {
+        let mut all_possible_values = VALID_ROW.to_vec();
+        let row_numbers = &self.grid[row as usize];
+        for number in row_numbers {
+            all_possible_values.retain(|i| i != number);
+        }
+        for number in 0..9 {
+            all_possible_values.retain(|i| i != &self.grid[number][column as usize]);
+        }
+        let expected_column_grid = column / 3;
+        let expected_row_grid = row / 3;
+        for row in 0..9 {
+            for column in 0..9 {
+                let current_row_grid = row / 3;
+                let current_column_grid = column / 3;
+                if (current_row_grid == expected_row_grid) &&
+                    (current_column_grid == expected_column_grid) {
+                        all_possible_values.retain(|i| i != &self.grid[row as usize][column as usize]);
+                    }
+            }
+        }
+
+        all_possible_values
+    }
+
     fn build_unsolved_squares(grid: &Vec<Vec<isize>>) -> Option<Vec<Square>> {
         let mut squares = Vec::new();
         for row in 0..9 {
@@ -70,31 +95,6 @@ impl Puzzle {
         }
 
         return false
-    }
-
-    pub fn possible_values(&self, row: i32, column: i32) -> Vec<isize> {
-        let mut all_possible_values = VALID_ROW.to_vec();
-        let row_numbers = &self.grid[row as usize];
-        for number in row_numbers {
-            all_possible_values.retain(|i| i != number);
-        }
-        for number in 0..9 {
-            all_possible_values.retain(|i| i != &self.grid[number][column as usize]);
-        }
-        let expected_column_grid = column / 3;
-        let expected_row_grid = row / 3;
-        for row in 0..9 {
-            for column in 0..9 {
-                let current_row_grid = row / 3;
-                let current_column_grid = column / 3;
-                if (current_row_grid == expected_row_grid) &&
-                    (current_column_grid == expected_column_grid) {
-                        all_possible_values.retain(|i| i != &self.grid[row as usize][column as usize]);
-                    }
-            }
-        }
-
-        all_possible_values
     }
 
 }
