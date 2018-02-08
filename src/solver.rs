@@ -25,7 +25,7 @@ impl Solver {
         }
         let mut solved_any = false;
         for square in &unsolved {
-            let possible_values = square.possible_values(self.puzzle.grid.to_vec());
+            let possible_values = square.possible_values(&self.puzzle_grid());
             if possible_values.len() == 1 {
                 &self.solve_square(&square, possible_values[0]);
                 solved_any = true;
@@ -41,13 +41,17 @@ impl Solver {
                 let mut new_puzzle = self.clone_and_set(&square.row, &square.column, value);
                 new_puzzle.solve_puzzle();
                 if valid(&new_puzzle.answer()) {
-                    self.puzzle.grid = new_puzzle.puzzle.grid.to_vec();
+                    self.puzzle.grid = new_puzzle.puzzle_grid().to_vec();
                     break;
                 }
             }
         }
 
         return self.answer()
+    }
+
+    fn puzzle_grid(&self) -> &Vec<Vec<isize>> {
+        &self.puzzle.grid
     }
 
     fn unsolved(&self) -> Vec<Square> {
@@ -65,7 +69,7 @@ impl Solver {
     }
 
     fn randomize(&self, square: &Square) -> Vec<isize> {
-        let mut possible_values = square.possible_values(self.puzzle.grid.to_vec());
+        let mut possible_values = square.possible_values(&self.puzzle_grid());
         rand::thread_rng().shuffle(&mut possible_values);
 
         possible_values

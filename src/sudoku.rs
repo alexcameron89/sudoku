@@ -86,7 +86,7 @@ impl PartialEq for Square {
 }
 
 impl Square {
-    pub fn possible_values(&self, grid: Vec<Vec<isize>>) -> Vec<isize> {
+    pub fn possible_values(&self, grid: &Vec<Vec<isize>>) -> Vec<isize> {
         let mut all_possible_values = VALID_ROW.to_vec();
         let row_numbers = &grid[self.row as usize];
         for number in row_numbers {
@@ -135,6 +135,6 @@ mod tests {
                 possible_values: None,
                 set: false
             };
-            assert_eq!(vec![3,9], square.possible_values(grid));
+            assert_eq!(vec![3,9], square.possible_values(&grid));
     }
 }
