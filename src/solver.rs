@@ -55,7 +55,7 @@ impl Solver {
     }
 
     fn solve_square(&mut self, square: &Square, square_value: isize) {
-        self.puzzle.set_square_value(square.row, square.column, square_value);
+        self.puzzle.set_square_value(square, square_value);
     }
 
     fn choose_random_square<'a>(&self, squares: &'a Vec<Square>) -> &'a Square {
@@ -73,7 +73,13 @@ impl Solver {
 
     fn clone_and_set(&self, row: &i32, column: &i32, value: &isize) -> Solver {
         let mut new_puzzle = self.puzzle.clone();
-        new_puzzle.set_square_value(row.abs(), column.abs(), value.abs());
+        let synthetic_square = Square {
+            row: row.abs(),
+            column: column.abs(),
+            set: true,
+            possible_values: Some(vec![value.abs()]),
+        };
+        new_puzzle.set_square_value(&synthetic_square, value.abs());
 
         Solver {
             puzzle: new_puzzle,

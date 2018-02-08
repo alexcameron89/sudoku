@@ -23,11 +23,11 @@ impl Puzzle {
         }
     }
 
-    pub fn set_square_value(&mut self, row: i32, column: i32, value: isize) {
-        self.grid[row as usize][column as usize] = value;
+    pub fn set_square_value(&mut self, square: &Square, value: isize) {
+        self.grid[square.row as usize][square.column as usize] = value;
         let mut unsolved: Vec<Square> = self.unsolved.take().unwrap();
-        let square = unsolved.iter().position( |s| s.row == row && s.column == column ).unwrap();
-        unsolved.remove(square);
+        let square_position_from_list = unsolved.iter().position( |s| s == square ).unwrap();
+        unsolved.remove(square_position_from_list);
         self.unsolved = match unsolved.len() {
             0 => None,
             _ => Some(unsolved)
