@@ -26,6 +26,7 @@ impl Puzzle {
     pub fn set_square_value(&mut self, square: &Square, value: isize) {
         self.grid[square.row as usize][square.column as usize] = value;
         self.remove_from_unsolved(square);
+        self.update_other_unsolved_squares(square);
     }
 
     pub fn unsolved_squares(&self) -> Vec<Square> {
@@ -39,6 +40,24 @@ impl Puzzle {
         let mut unsolved: Vec<Square> = self.unsolved.take().unwrap();
         let square_position_from_list = unsolved.iter().position( |s| s == square ).unwrap();
         unsolved.remove(square_position_from_list);
+        self.unsolved = match unsolved.len() {
+            0 => None,
+            _ => Some(unsolved)
+        };
+    }
+
+    fn update_other_unsolved_squares(&mut self, removed_square: &Square) {
+        let mut unsolved: Vec<Square> = match self.unsolved.take() {
+            None => return,
+            Some(squares) => squares,
+        };
+
+        for square in &unsolved {
+            if square.in_same_region_as(removed_square) {
+                square.remove_from_values(&self.grid, removed_square);
+            }
+        }
+
         self.unsolved = match unsolved.len() {
             0 => None,
             _ => Some(unsolved)
@@ -109,6 +128,13 @@ impl Square {
         }
 
         all_possible_values
+    }
+
+    fn in_same_region_as(&self, other_square: &Square) -> bool {
+        false
+    }
+
+    fn remove_from_values(&self, grid: &Vec<Vec<isize>>, removed_square: &Square) {
     }
 }
 
