@@ -47,7 +47,7 @@ impl Puzzle {
     }
 
     fn update_other_unsolved_squares(&mut self, removed_square: &Square) {
-        let mut unsolved: Vec<Square> = match self.unsolved.take() {
+        let unsolved: Vec<Square> = match self.unsolved.take() {
             None => return,
             Some(squares) => squares,
         };

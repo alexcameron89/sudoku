@@ -1,5 +1,3 @@
-use sudoku::Puzzle;
-
 const VALID_SORTED_ROW: [isize; 9] = [1,2,3,4,5,6,7,8,9];
 
 pub fn valid(puzzle: &Vec<Vec<isize>>) -> bool {
@@ -70,9 +68,9 @@ fn grids_are_valid(puzzle_grid: &Vec<Vec<isize>>) -> bool {
 
 fn build_grid_groups(puzzle_grid: &Vec<Vec<isize>>) -> Vec<Vec<Vec<isize>>> {
     let mut grids = vec![];
-    let mut grid_group_number = 0;
+    let mut grid_group_number;
     let mut grid_group = Vec::new();
-    let mut new_grid = Vec::new();
+    let mut new_grid;
     for group in 0..9 {
         grid_group_number = group % 3;
         new_grid = Vec::new();
