@@ -160,3 +160,74 @@ mod tests {
         assert!(!grids_are_valid(&invalid_grid));
     }
 }
+
+#[cfg(test)]
+mod benchmarks {
+    use super::*;
+    use sudoku::Puzzle;
+    use test::Bencher;
+
+    #[bench]
+    fn bench_rows_are_valid(b: &mut Bencher) {
+        let grid = vec![
+            vec![0,0,3,0,2,0,6,0,0],
+            vec![9,0,0,3,0,5,0,0,1],
+            vec![0,0,1,8,0,6,4,0,0],
+            vec![0,0,8,1,0,2,9,0,0],
+            vec![7,0,0,0,0,0,0,0,8],
+            vec![0,0,6,7,0,8,2,0,0],
+            vec![0,0,2,6,0,9,5,0,0],
+            vec![8,0,0,2,0,3,0,0,9],
+            vec![0,0,5,0,1,0,3,0,0]
+        ];
+        b.iter(|| rows_are_valid(&grid));
+    }
+
+    #[bench]
+    fn bench_columns_are_valid(b: &mut Bencher) {
+        let grid = vec![
+            vec![0,0,3,0,2,0,6,0,0],
+            vec![9,0,0,3,0,5,0,0,1],
+            vec![0,0,1,8,0,6,4,0,0],
+            vec![0,0,8,1,0,2,9,0,0],
+            vec![7,0,0,0,0,0,0,0,8],
+            vec![0,0,6,7,0,8,2,0,0],
+            vec![0,0,2,6,0,9,5,0,0],
+            vec![8,0,0,2,0,3,0,0,9],
+            vec![0,0,5,0,1,0,3,0,0]
+        ];
+        b.iter(|| columns_are_valid(&grid));
+    }
+
+    #[bench]
+    fn bench_grids_are_valid(b: &mut Bencher) {
+        let grid = vec![
+            vec![0,0,3,0,2,0,6,0,0],
+            vec![9,0,0,3,0,5,0,0,1],
+            vec![0,0,1,8,0,6,4,0,0],
+            vec![0,0,8,1,0,2,9,0,0],
+            vec![7,0,0,0,0,0,0,0,8],
+            vec![0,0,6,7,0,8,2,0,0],
+            vec![0,0,2,6,0,9,5,0,0],
+            vec![8,0,0,2,0,3,0,0,9],
+            vec![0,0,5,0,1,0,3,0,0]
+        ];
+        b.iter(|| grids_are_valid(&grid));
+    }
+
+    #[bench]
+    fn bench_valid(b: &mut Bencher) {
+        let grid = vec![
+            vec![0,0,3,0,2,0,6,0,0],
+            vec![9,0,0,3,0,5,0,0,1],
+            vec![0,0,1,8,0,6,4,0,0],
+            vec![0,0,8,1,0,2,9,0,0],
+            vec![7,0,0,0,0,0,0,0,8],
+            vec![0,0,6,7,0,8,2,0,0],
+            vec![0,0,2,6,0,9,5,0,0],
+            vec![8,0,0,2,0,3,0,0,9],
+            vec![0,0,5,0,1,0,3,0,0]
+        ];
+        b.iter(|| valid(&grid));
+    }
+}
