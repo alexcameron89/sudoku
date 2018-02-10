@@ -130,11 +130,11 @@ impl Square {
         all_possible_values
     }
 
-    fn in_same_region_as(&self, other_square: &Square) -> bool {
+    fn in_same_region_as(&self, _other_square: &Square) -> bool {
         false
     }
 
-    fn remove_from_values(&self, grid: &Vec<Vec<isize>>, removed_square: &Square) {
+    fn remove_from_values(&self, _grid: &Vec<Vec<isize>>, _removed_square: &Square) {
     }
 }
 
@@ -162,5 +162,33 @@ mod tests {
                 set: false
             };
             assert_eq!(vec![3,9], square.possible_values(&grid));
+    }
+}
+
+#[cfg(test)]
+mod benchmarks {
+    use super::*;
+    use test::Bencher;
+
+    #[bench]
+    fn bench_possible_values(b: &mut Bencher) {
+        let grid = vec![
+            vec![0,0,0,0,1,0,0,0,0],
+            vec![0,0,0,0,0,0,0,0,0],
+            vec![0,0,0,0,0,0,0,0,0],
+            vec![0,0,0,7,0,8,0,0,0],
+            vec![4,0,5,0,0,0,0,6,0],
+            vec![0,0,9,0,0,0,0,0,0],
+            vec![0,0,0,0,2,0,0,0,0],
+            vec![0,0,0,0,0,0,0,0,0],
+            vec![0,0,0,0,0,0,3,0,0]
+        ];
+        let square = Square {
+            row: 4,
+            column: 4,
+            possible_values: None,
+            set: false
+        };
+        b.iter(|| square.possible_values(&grid) );
     }
 }
