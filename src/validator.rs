@@ -93,7 +93,6 @@ fn build_grid_groups(puzzle_grid: &Vec<Vec<isize>>) -> Vec<Vec<Vec<isize>>> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use sudoku::Puzzle;
 
     #[test]
     fn it_returns_a_valid_puzzle_as_valid() {
@@ -164,7 +163,6 @@ mod tests {
 #[cfg(test)]
 mod benchmarks {
     use super::*;
-    use sudoku::Puzzle;
     use test::Bencher;
 
     #[bench]

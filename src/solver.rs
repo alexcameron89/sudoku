@@ -95,7 +95,6 @@ impl Solver {
 mod tests {
     use super::*;
     use sudoku::{Puzzle,Square};
-    use validator::valid;
 
     #[test]
     fn it_keeps_track_of_unsolved_squares() {
