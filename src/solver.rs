@@ -33,21 +33,26 @@ impl Solver {
         }
 
         if solved_any {
-            &self.solve_puzzle();
+            self.solve_puzzle();
         } else {
-            let square = &self.choose_random_square(&unsolved);
-            let values = &self.randomize(&square);
-            for value in values {
-                let mut new_puzzle = self.clone_and_set(&square.row, &square.column, value);
-                new_puzzle.solve_puzzle();
-                if valid(&new_puzzle.answer()) {
-                    self.puzzle.grid = new_puzzle.puzzle_grid().to_vec();
-                    break;
-                }
-            }
+            self.search_for_answer();
         }
 
-        return self.answer()
+        self.answer()
+    }
+
+    fn search_for_answer(&mut self) {
+        let unsolved = self.unsolved();
+        let square = self.choose_random_square(&unsolved);
+        let values = self.randomize(&square);
+        for value in &values {
+            let mut new_puzzle = self.clone_and_set(&square.row, &square.column, value);
+            new_puzzle.solve_puzzle();
+            if valid(&new_puzzle.answer()) {
+                self.puzzle.grid = new_puzzle.puzzle_grid().to_vec();
+                break;
+            }
+        }
     }
 
     fn puzzle_grid(&self) -> &Vec<Vec<isize>> {
@@ -76,13 +81,13 @@ impl Solver {
     }
 
     fn clone_and_set(&self, row: &i32, column: &i32, value: &isize) -> Solver {
-        let mut new_puzzle = self.puzzle.clone();
         let synthetic_square = Square {
             row: row.abs(),
             column: column.abs(),
             set: true,
             possible_values: Some(vec![value.abs()]),
         };
+        let mut new_puzzle = self.puzzle.clone();
         new_puzzle.set_square_value(&synthetic_square, value.abs());
 
         Solver {
