@@ -19,7 +19,7 @@ impl Puzzle {
     pub fn new(grid: Vec<Vec<isize>>) -> Puzzle {
         Self {
             unsolved: Self::build_unsolved_squares(&grid),
-            grid: grid,
+            grid,
         }
     }
 
@@ -64,14 +64,14 @@ impl Puzzle {
         };
     }
 
-    fn build_unsolved_squares(grid: &Vec<Vec<isize>>) -> Option<Vec<Square>> {
+    fn build_unsolved_squares(grid: &[Vec<isize>]) -> Option<Vec<Square>> {
         let mut squares = Vec::new();
         for row in 0..9 {
             for column in 0..9 {
                 if Self::not_set(row as usize, column as usize, grid) {
                     let square = Square {
-                        row: row,
-                        column: column,
+                        row,
+                        column,
                         possible_values: None,
                         set: false,
                     };
@@ -87,12 +87,12 @@ impl Puzzle {
         }
     }
 
-    fn not_set(row: usize, column: usize, grid: &Vec<Vec<isize>>) -> bool {
+    fn not_set(row: usize, column: usize, grid: &[Vec<isize>]) -> bool {
         if grid[row][column] == (0 as isize) {
             return true
         }
 
-        return false
+        false
     }
 
 }
@@ -105,7 +105,7 @@ impl PartialEq for Square {
 }
 
 impl Square {
-    pub fn possible_values(&self, grid: &Vec<Vec<isize>>) -> Vec<isize> {
+    pub fn possible_values(&self, grid: &[Vec<isize>]) -> Vec<isize> {
         let mut all_possible_values = VALID_ROW.to_vec();
         let row_numbers = &grid[self.row as usize];
         for number in row_numbers {
@@ -134,7 +134,7 @@ impl Square {
         false
     }
 
-    fn remove_from_values(&self, _grid: &Vec<Vec<isize>>, _removed_square: &Square) {
+    fn remove_from_values(&self, _grid: &[Vec<isize>], _removed_square: &Square) {
     }
 }
 

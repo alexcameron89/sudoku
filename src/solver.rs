@@ -15,19 +15,19 @@ pub fn solve(puzzle: &Puzzle) -> Vec<Vec<isize>> {
 
 impl Solver {
     pub fn answer(&self) -> Vec<Vec<isize>> {
-        return self.puzzle.grid.to_vec();
+        self.puzzle.grid.to_vec()
     }
 
     pub fn solve_puzzle(&mut self) -> Vec<Vec<isize>> {
         let unsolved = self.unsolved();
-        if unsolved.len() == 0 {
+        if unsolved.is_empty() {
             return self.answer()
         }
         let mut solved_any = false;
         for square in &unsolved {
             let possible_values = square.possible_values(&self.puzzle_grid());
             if possible_values.len() == 1 {
-                &self.solve_square(&square, possible_values[0]);
+                self.solve_square(&square, possible_values[0]);
                 solved_any = true;
             }
         }
@@ -46,7 +46,7 @@ impl Solver {
         let square = self.choose_random_square(&unsolved);
         let values = self.randomize(&square);
         for value in &values {
-            let mut new_puzzle = self.clone_and_set(&square.row, &square.column, value);
+            let mut new_puzzle = self.clone_and_set(square.row, square.column, *value);
             new_puzzle.solve_puzzle();
             if valid(&new_puzzle.answer()) {
                 self.puzzle.grid = new_puzzle.puzzle_grid().to_vec();
@@ -67,7 +67,7 @@ impl Solver {
         self.puzzle.set_square_value(square, square_value);
     }
 
-    fn choose_random_square<'a>(&self, squares: &'a Vec<Square>) -> &'a Square {
+    fn choose_random_square<'a>(&self, squares: &'a [Square]) -> &'a Square {
         let mut rng = rand::thread_rng();
         let random_square = Range::new(0, squares.len());
         &squares[random_square.ind_sample(&mut rng)]
@@ -80,7 +80,7 @@ impl Solver {
         possible_values
     }
 
-    fn clone_and_set(&self, row: &i32, column: &i32, value: &isize) -> Solver {
+    fn clone_and_set(&self, row: i32, column: i32, value: isize) -> Solver {
         let synthetic_square = Square {
             row: row.abs(),
             column: column.abs(),
