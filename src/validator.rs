@@ -1,6 +1,6 @@
-const VALID_SORTED_ROW: [isize; 9] = [1,2,3,4,5,6,7,8,9];
+const VALID_SORTED_ROW: [i32; 9] = [1,2,3,4,5,6,7,8,9];
 
-pub fn valid(puzzle: &[Vec<isize>]) -> bool {
+pub fn valid(puzzle: &[Vec<i32>]) -> bool {
     let rows_are_valid = rows_are_valid(&puzzle);
     let columns_are_valid = columns_are_valid(&puzzle);
     let grids_are_valid = grids_are_valid(&puzzle);
@@ -10,7 +10,7 @@ pub fn valid(puzzle: &[Vec<isize>]) -> bool {
         && grids_are_valid
 }
 
-fn row_is_valid(row: &[isize]) -> bool {
+fn row_is_valid(row: &[i32]) -> bool {
     for (i, number) in row.iter().enumerate() {
         if number != &VALID_SORTED_ROW[i] {
             return false
@@ -20,7 +20,7 @@ fn row_is_valid(row: &[isize]) -> bool {
     true
 }
 
-fn rows_are_valid(puzzle_grid: &[Vec<isize>]) -> bool {
+fn rows_are_valid(puzzle_grid: &[Vec<i32>]) -> bool {
     for row in puzzle_grid {
         let mut row_to_sort = row.to_vec();
         row_to_sort.sort();
@@ -32,7 +32,7 @@ fn rows_are_valid(puzzle_grid: &[Vec<isize>]) -> bool {
     true
 }
 
-fn columns_are_valid(puzzle_grid: &[Vec<isize>]) -> bool {
+fn columns_are_valid(puzzle_grid: &[Vec<i32>]) -> bool {
     for column in 0..9 {
         let mut row_to_sort = Vec::new();
         for row in 0..9 {
@@ -50,7 +50,7 @@ fn columns_are_valid(puzzle_grid: &[Vec<isize>]) -> bool {
     true
 }
 
-fn grids_are_valid(puzzle_grid: &[Vec<isize>]) -> bool {
+fn grids_are_valid(puzzle_grid: &[Vec<i32>]) -> bool {
     let grids = build_grid_groups(&puzzle_grid);
 
     for group in 0..3 {
@@ -66,7 +66,7 @@ fn grids_are_valid(puzzle_grid: &[Vec<isize>]) -> bool {
     true
 }
 
-fn build_grid_groups(puzzle_grid: &[Vec<isize>]) -> Vec<Vec<Vec<isize>>> {
+fn build_grid_groups(puzzle_grid: &[Vec<i32>]) -> Vec<Vec<Vec<i32>>> {
     let mut grids = vec![];
     let mut grid_group_number;
     let mut grid_group = Vec::new();

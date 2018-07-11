@@ -1,8 +1,8 @@
-const VALID_ROW: [isize; 9] = [1,2,3,4,5,6,7,8,9];
+const VALID_ROW: [i32; 9] = [1,2,3,4,5,6,7,8,9];
 
 #[derive(Clone,Debug)]
 pub struct Puzzle {
-    pub grid: Vec<Vec<isize>>,
+    pub grid: Vec<Vec<i32>>,
     unsolved: Vec<Square>,
 }
 
@@ -10,20 +10,20 @@ pub struct Puzzle {
 pub struct Square {
     pub row: i32,
     pub column: i32,
-    pub possible_values: Vec<isize>,
+    pub possible_values: Vec<i32>,
     pub set: bool,
 }
 
 
 impl Puzzle {
-    pub fn new(grid: Vec<Vec<isize>>) -> Puzzle {
+    pub fn new(grid: Vec<Vec<i32>>) -> Puzzle {
         Self {
             unsolved: Self::build_unsolved_squares(&grid),
             grid,
         }
     }
 
-    pub fn set_square_value(&mut self, square: &Square, value: isize) {
+    pub fn set_square_value(&mut self, square: &Square, value: i32) {
         self.grid[square.row as usize][square.column as usize] = value;
         self.remove_from_unsolved(square);
         self.update_other_unsolved_squares(square);
@@ -46,7 +46,7 @@ impl Puzzle {
         }
     }
 
-    fn build_unsolved_squares(grid: &[Vec<isize>]) -> Vec<Square> {
+    fn build_unsolved_squares(grid: &[Vec<i32>]) -> Vec<Square> {
         let mut squares = Vec::new();
         for row in 0..9 {
             for column in 0..9 {
@@ -66,8 +66,8 @@ impl Puzzle {
         squares
     }
 
-    fn not_set(row: usize, column: usize, grid: &[Vec<isize>]) -> bool {
-        if grid[row][column] == (0 as isize) {
+    fn not_set(row: usize, column: usize, grid: &[Vec<i32>]) -> bool {
+        if grid[row][column] == (0 as i32) {
             return true
         }
 
@@ -84,7 +84,7 @@ impl PartialEq for Square {
 }
 
 impl Square {
-    pub fn possible_values(&self, grid: &[Vec<isize>]) -> Vec<isize> {
+    pub fn possible_values(&self, grid: &[Vec<i32>]) -> Vec<i32> {
         let mut all_possible_values = VALID_ROW.to_vec();
         let row_numbers = &grid[self.row as usize];
         for number in row_numbers {
@@ -113,7 +113,7 @@ impl Square {
         false
     }
 
-    fn remove_from_values(&self, _grid: &[Vec<isize>], _removed_square: &Square) {
+    fn remove_from_values(&self, _grid: &[Vec<i32>], _removed_square: &Square) {
     }
 }
 

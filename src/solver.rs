@@ -8,17 +8,17 @@ pub struct Solver {
     pub puzzle: Puzzle,
 }
 
-pub fn solve(puzzle: &Puzzle) -> Vec<Vec<isize>> {
+pub fn solve(puzzle: &Puzzle) -> Vec<Vec<i32>> {
     let mut solver = Solver { puzzle: puzzle.clone() };
     solver.solve_puzzle()
 }
 
 impl Solver {
-    pub fn answer(&self) -> Vec<Vec<isize>> {
+    pub fn answer(&self) -> Vec<Vec<i32>> {
         self.puzzle.grid.to_vec()
     }
 
-    pub fn solve_puzzle(&mut self) -> Vec<Vec<isize>> {
+    pub fn solve_puzzle(&mut self) -> Vec<Vec<i32>> {
         let unsolved = self.unsolved();
         if unsolved.is_empty() {
             return self.answer()
@@ -55,7 +55,7 @@ impl Solver {
         }
     }
 
-    fn puzzle_grid(&self) -> &Vec<Vec<isize>> {
+    fn puzzle_grid(&self) -> &Vec<Vec<i32>> {
         &self.puzzle.grid
     }
 
@@ -63,7 +63,7 @@ impl Solver {
         self.puzzle.unsolved_squares()
     }
 
-    fn solve_square(&mut self, square: &Square, square_value: isize) {
+    fn solve_square(&mut self, square: &Square, square_value: i32) {
         self.puzzle.set_square_value(square, square_value);
     }
 
@@ -73,14 +73,14 @@ impl Solver {
         &squares[random_square.ind_sample(&mut rng)]
     }
 
-    fn randomize(&self, square: &Square) -> Vec<isize> {
+    fn randomize(&self, square: &Square) -> Vec<i32> {
         let mut possible_values = square.possible_values(&self.puzzle_grid());
         rand::thread_rng().shuffle(&mut possible_values);
 
         possible_values
     }
 
-    fn clone_and_set(&self, row: i32, column: i32, value: isize) -> Solver {
+    fn clone_and_set(&self, row: i32, column: i32, value: i32) -> Solver {
         let synthetic_square = Square {
             row: row.abs(),
             column: column.abs(),
