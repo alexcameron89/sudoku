@@ -34,21 +34,16 @@ impl Puzzle {
     }
 
     fn remove_from_unsolved(&mut self, square: &Square) {
-        let mut unsolved = self.unsolved.clone();
-        let square_position_from_list = unsolved.iter().position( |s| s == square ).unwrap();
-        unsolved.remove(square_position_from_list);
-        self.unsolved = unsolved;
+        let square_position_from_list = self.unsolved.iter().position( |s| s == square ).unwrap();
+        self.unsolved.remove(square_position_from_list);
     }
 
     fn update_other_unsolved_squares(&mut self, removed_square: &Square) {
-        let unsolved = self.unsolved.clone();
-        for square in &unsolved {
+        for square in &self.unsolved {
             if square.in_same_region_as(removed_square) {
                 square.remove_from_values(&self.grid, removed_square);
             }
         }
-
-        self.unsolved = unsolved;
     }
 
     fn build_unsolved_squares(grid: &[Vec<isize>]) -> Vec<Square> {
