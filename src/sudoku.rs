@@ -3,7 +3,7 @@ const VALID_ROW: [isize; 9] = [1,2,3,4,5,6,7,8,9];
 #[derive(Clone,Debug)]
 pub struct Puzzle {
     pub grid: Vec<Vec<isize>>,
-    unsolved: Option<Vec<Square>>,
+    unsolved: Vec<Square>,
 }
 
 #[derive(Clone, Debug)]
@@ -30,41 +30,28 @@ impl Puzzle {
     }
 
     pub fn unsolved_squares(&self) -> Vec<Square> {
-        match self.unsolved {
-            Some(ref squares) => squares.clone(),
-            None => Vec::new(),
-        }
+        self.unsolved.clone()
     }
 
     fn remove_from_unsolved(&mut self, square: &Square) {
-        let mut unsolved: Vec<Square> = self.unsolved.take().unwrap();
+        let mut unsolved = self.unsolved.clone();
         let square_position_from_list = unsolved.iter().position( |s| s == square ).unwrap();
         unsolved.remove(square_position_from_list);
-        self.unsolved = match unsolved.len() {
-            0 => None,
-            _ => Some(unsolved)
-        };
+        self.unsolved = unsolved;
     }
 
     fn update_other_unsolved_squares(&mut self, removed_square: &Square) {
-        let unsolved: Vec<Square> = match self.unsolved.take() {
-            None => return,
-            Some(squares) => squares,
-        };
-
+        let unsolved = self.unsolved.clone();
         for square in &unsolved {
             if square.in_same_region_as(removed_square) {
                 square.remove_from_values(&self.grid, removed_square);
             }
         }
 
-        self.unsolved = match unsolved.len() {
-            0 => None,
-            _ => Some(unsolved)
-        };
+        self.unsolved = unsolved;
     }
 
-    fn build_unsolved_squares(grid: &[Vec<isize>]) -> Option<Vec<Square>> {
+    fn build_unsolved_squares(grid: &[Vec<isize>]) -> Vec<Square> {
         let mut squares = Vec::new();
         for row in 0..9 {
             for column in 0..9 {
@@ -81,10 +68,7 @@ impl Puzzle {
             }
         }
 
-        match squares.len() {
-            0 => None,
-            _ => Some(squares)
-        }
+        squares
     }
 
     fn not_set(row: usize, column: usize, grid: &[Vec<isize>]) -> bool {
