@@ -10,7 +10,7 @@ pub struct Puzzle {
 pub struct Square {
     pub row: i32,
     pub column: i32,
-    pub possible_values: Option<Vec<isize>>,
+    pub possible_values: Vec<isize>,
     pub set: bool,
 }
 
@@ -72,7 +72,7 @@ impl Puzzle {
                     let square = Square {
                         row,
                         column,
-                        possible_values: None,
+                        possible_values: vec![1,2,3,4,5,6,7,8,9],
                         set: false,
                     };
 
@@ -158,7 +158,7 @@ mod tests {
             let square = Square {
                 row: 4,
                 column: 4,
-                possible_values: None,
+                possible_values: vec![1,2,3,4,5,6,7,8,9],
                 set: false
             };
             assert_eq!(vec![3,9], square.possible_values(&grid));
@@ -186,7 +186,7 @@ mod benchmarks {
         let square = Square {
             row: 4,
             column: 4,
-            possible_values: None,
+            possible_values: vec![1,2,3,4,5,6,7,8,9],
             set: false
         };
         b.iter(|| square.possible_values(&grid) );

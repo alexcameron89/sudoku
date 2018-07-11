@@ -85,7 +85,7 @@ impl Solver {
             row: row.abs(),
             column: column.abs(),
             set: true,
-            possible_values: Some(vec![value.abs()]),
+            possible_values: vec![value],
         };
         let mut new_puzzle = self.puzzle.clone();
         new_puzzle.set_square_value(&synthetic_square, value.abs());
@@ -118,8 +118,8 @@ mod tests {
                 puzzle: Puzzle::new(grid)
             };
             let unsolved = vec![
-                Square { row: 0, column: 0, possible_values: None, set: false },
-                Square { row: 1, column: 1, possible_values: None, set: false }
+                Square { row: 0, column: 0, possible_values: vec![1,2,3,4,5,6,7,8,9], set: false },
+                Square { row: 1, column: 1, possible_values: vec![1,2,3,4,5,6,7,8,9], set: false }
             ];
             assert_eq!(unsolved, solver.unsolved());
     }
