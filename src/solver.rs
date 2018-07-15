@@ -68,9 +68,27 @@ impl Solver {
     }
 
     fn choose_random_square<'a>(&self, squares: &'a [Square]) -> &'a Square {
+        let best_squares = self.find_best_squares(squares);
         let mut rng = rand::thread_rng();
-        let random_square = Range::new(0, squares.len());
-        &squares[random_square.ind_sample(&mut rng)]
+        let random_square = Range::new(0, best_squares.len());
+        &best_squares[random_square.ind_sample(&mut rng)]
+    }
+
+    fn find_best_squares<'a>(&self, squares: &'a [Square]) -> Vec<&'a Square> {
+        let mut least_possible_value = 9;
+        let mut best_squares = Vec::new();
+        for square in squares {
+            let square_value_count = square.possible_values.len();
+            if square_value_count == least_possible_value {
+                best_squares.push(square);
+            } else if square_value_count < least_possible_value {
+                best_squares.clear();
+                best_squares.push(square);
+                least_possible_value = square_value_count;
+            }
+        }
+
+        best_squares
     }
 
     fn randomize(&self, square: &Square) -> Vec<i32> {
